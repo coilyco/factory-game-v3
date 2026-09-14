@@ -9,6 +9,10 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: build-publish
+  cancel-in-progress: false
+
 jobs:
   publish:
     runs-on: deploy
