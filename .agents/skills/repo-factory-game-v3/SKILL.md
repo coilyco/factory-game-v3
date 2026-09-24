@@ -5,7 +5,7 @@ description: Triggers - factory-game-v3
 
 # repo-factory-game-v3
 
-Pointer to `~/projects/coilyco-gaming/factory-game-v3/`.
+Pointer to `~/projects/coilyco/factory-game-v3/`.
 
 - [`README.md`](../../../README.md) - what it is, quickstart, layout.
 - [`AGENTS.md`](../../../AGENTS.md) - agent-facing operating context for the repo.

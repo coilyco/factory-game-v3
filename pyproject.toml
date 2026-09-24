@@ -7,7 +7,7 @@ excludes = [
 ]
 
 [tool.agentic-os.repo-pointer-skills]
-org = "coilyco-gaming"
+org = "coilyco"
 
 [tool.agentic-os.documentation-layout]
 # Large, not small. 28 docs already exceeds the small band's 20-doc cap, so
