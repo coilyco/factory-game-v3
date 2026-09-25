@@ -1,0 +1,14 @@
+# Skill categories: long-form docs/ records, plus the generated repo-* pointer skill.
+
+categories:
+  - id: coding-factory-game-v3
+    kind: prefix
+    prefix: coding-factory-game-v3-
+    enforce_status: false
+  - id: repo
+    kind: prefix
+    prefix: repo-
+    role: repo-pointer
+    enforce_status: false
+
+forbidden_body_strings: []

@@ -1,6 +1,5 @@
-# Builds and publishes the factory-game-v3 image on every push to main.
-# Rollout remains in coilyco-bridge/deploy. workflow_dispatch is the retry
-# path when a runner kills a run or cannot reach a fetch it needs.
+# Builds and publishes the factory-game-v3 image on every push to main. Rollout stays in
+# coilyco-bridge/deploy. workflow_dispatch retries a killed or unfetchable run.
 name: build-publish
 
 on:

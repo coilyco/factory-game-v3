@@ -1,32 +1,40 @@
-# V3 simulation fixtures
+# 50x50 factory world
 
-One deterministic 50x50 world remains, as a headless integration fixture. The
-player-facing app uses the compact planning scenario described in
-[compact-first-playable.md](compact-first-playable.md), so this world does not
-appear in the game UI.
+One deterministic 50x50 world remains, as a headless integration and scale
+fixture. It does not appear in the game UI.
 
-## V3 50x50 factory world
+## Startup
 
-The primary world preserves the final C# setup at full scale. It combines 423
-seeded ore deposits, a central fifteen-factory district, fifteen haulers, four
-radars, and one coal plant. Its broad generated resource field remains the
-integration and sustained-operation proof, exercised by `just v2-liveness`.
+- 50x50 grid, seed `4382721`, 141 each of iron, copper, and coal deposits
+  outside a ten-cell central radius, plus one manifest stone source.
+- Seven foundries, eight upper-tier factories, one coal generator with 4,000
+  fuel, fifteen haulers, and ten starting drills.
+- Three mining-drill radars and one coal-plant radar, as in
+  [deployment-radar.md](deployment-radar.md).
 
-## The three authored worlds that were here
+The generator follows the v2 seed and rules but does not claim bit-for-bit
+.NET compatibility.
 
-`legacy-assembly-yard`, `twin-plant-basin` and `four-corners-works` were removed
-in `teable:coilyco-gaming/factory-game-v3#7041`. They adapted the earlier and
-later C# yards and added a Rust-native distributed layout, and nothing in the
-repository ever simulated any of them. The only test that touched them compared
-their layout arrays against their own declared counts, which a world cannot fail
-by being broken: `four-corners-works` produced zero items in 40 ticks and passed
-it anyway.
+## Proofs
 
-Migration evidence is what they were for, and git history holds that better than
-a fixture nothing runs. Recover them from the history of
-`crates/factory_content/src/lib.rs` if a full-scale authored layout is ever
-wanted again.
+- **50 ticks** - six drills deploy, all four source types mine, and iron bars,
+  frames, and building materials are crafted against fixed totals.
+- **650 ticks** - two replays zero every non-generator battery after tick 500
+  and must keep extraction, freight, production, and remote generation running
+  with identical metrics every 50 ticks. Run `just v2-liveness`.
 
-The smaller catalog scenarios remain available to the headless runner and test
-suite as focused component fixtures, and
-[factory-scenarios.md](factory-scenarios.md) lists them.
+An early run collapsed freight near tick 500. Route caching, sealed-endpoint
+filtering, full-capacity reservation, stale-assignment cancellation, and
+bounded grid extension now prevent that deadlock.
+
+The gate proves 150 post-cutoff ticks, not infinite steady state or .NET
+parity. Three authored 50x50 worlds that nothing simulated were removed in
+`teable:coilyco-gaming/factory-game-v3#7041`.
+
+Full text, with measured totals and timings, in the
+[coding-factory-game-v3-reference](../.agents/skills/coding-factory-game-v3-reference/SKILL.md)
+skill:
+[v2-world.md](../.agents/skills/coding-factory-game-v3-reference/references/v2-world.md),
+[v2-liveness.md](../.agents/skills/coding-factory-game-v3-reference/references/v2-liveness.md),
+and
+[v3-worlds.md](../.agents/skills/coding-factory-game-v3-reference/references/v3-worlds.md).

@@ -1,4 +1,4 @@
-# Dispatch priority policy
+# Dispatch Priority Policy
 
 `factory_sim` exposes a viewer-independent control plane for ordering contested
 delivery demand. A rule targets one destination and item, so prioritizing iron
@@ -6,13 +6,19 @@ ore at one factory does not change iron ore demand anywhere else.
 
 ## Configure
 
+Use the presets or any `u8` value:
+
 ```rust
-game.set_dispatch_priority(NodeId::Factory(1), IRON_ORE, DispatchPriority::HIGH);
+game.set_dispatch_priority(
+  NodeId::Factory(1),
+  IRON_ORE,
+  DispatchPriority::HIGH,
+);
 ```
 
-`LOW`, `NORMAL`, and `HIGH` map to 64, 128, and 192. `DispatchPriority::new`
-accepts the full 0 through 255 range. Setting `NORMAL` or calling
-`clear_dispatch_priority` removes the sparse override.
+`LOW`, `NORMAL`, and `HIGH` map to 64, 128, and 192. The scheduler accepts the
+full 0 through 255 range through `DispatchPriority::new`. Setting `NORMAL` or
+calling `clear_dispatch_priority` removes the sparse override.
 
 ## Arbitration
 
@@ -33,6 +39,7 @@ Resolved numeric priority is serialized on each active `DispatchIntent` and
 alongside the chosen source, destination, item, and phase. Existing scenarios
 use `NORMAL` until a caller installs an override.
 
-See [factory-sim.md](factory-sim.md) and [FEATURES.md](FEATURES.md). The
-original page is in
-[dispatch-policy.md](../.agents/skills/coding-factory-game-v3-reference/references/dispatch-policy.md).
+## See also
+
+- [factory-sim.md](factory-sim.md)
+- [FEATURES.md](../../../../docs/FEATURES.md)

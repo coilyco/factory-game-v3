@@ -1,64 +1,36 @@
 # Factory planning surface
 
-The Bevy native and Wasm app is the player-facing compact freight yard. It
-projects immutable `CompactSnapshot` values and sends explicit edit commands
-to `CompactGame`. Simulation rules remain Bevy-free.
+`crates/factory_shell` is the single native and Wasm Bevy app, the
+player-facing compact freight yard. It renders immutable `CompactSnapshot`
+values and sends typed edit commands to `CompactGame`, which keeps every rule.
 
-## World
+## Play
 
-The app opens paused and fitted to the full provisional 16x16 map. The map has
-one warehouse/export hub, four visible iron and copper deposits, three trucks,
-and a small starter road apron. The former 50x50 worlds remain headless
-simulation fixtures and are no longer player-facing scenarios.
+The app opens paused on the full 16x16 map: one warehouse, four iron and
+copper deposits, three trucks, and a starter road apron. The planner has four
+pointer modes (Inspect, Road, Erase, Factory), recipe buttons, and play,
+step, reset, speed, and zoom controls, so the loop needs no keyboard.
+Keyboard mirrors it: `1` to `4` tools, `I`/`C` recipes, `Space`, `N`, `R`,
+`F`, `WASD` or arrows to pan, `Q`/`E` or the wheel to zoom.
 
-The world projection shows:
+The native shell sleeps in winit's reactive mode while paused. The browser
+build stays continuous so DOM clicks from the panel in
+[accessible-play.md](accessible-play.md) are never dropped.
 
-- every ground and authored road cell
-- deposit stock and remaining ore
-- placed factories, recipes, input, output, and selection
-- warehouse position plus market state in the status bar
-- truck cargo and upcoming road route
+## Run and deploy
 
-The top status bar and bottom-right planner are the only screen-space UI
-surfaces. Resource rows use available tiny local sprites and literal `//`
-separators. The market row shows current demand, cumulative sales, and revenue.
+- `just shell-run` - native viewer.
+- `just shell-serve` - browser viewer with trunk hot reload.
+- `just shell-build-web` - Wasm bundle in `crates/factory_shell/dist/`.
 
-## Planning controls
+The repo-root [`Dockerfile`](../Dockerfile) builds with trunk and serves
+`dist/` from unprivileged nginx on 8080 ([`nginx.conf`](../nginx.conf)).
+Forgejo Actions publishes the git-sha image, and the deploy repo owns rollout
+and `factory.coilysiren.me`. Wasm-opt stays off until bundle size matters.
 
-The planner exposes four unambiguous pointer modes:
-
-- Inspect selects a factory or reports the clicked cell.
-- Road paints free road cells while the mouse or touch is held.
-- Erase removes free road cells while the mouse or touch is held.
-- Factory places one building against the current allowance and selects it.
-
-After selecting a factory, Iron Bars and Copper Bars assign its recipe. The
-same panel provides play/pause, one tick, reset, speed, and zoom buttons. This
-makes the complete planning loop usable by mouse or touch without keyboard
-requirements. Invalid edits return an actionable message in the panel.
-
-Keyboard mirrors the pointer controls: `1` through `4` select tools, `I` and
-`C` assign recipes, `Space` plays or pauses, `N` steps, `R` resets, and `F`
-changes speed. `WASD` or arrows pan while held. `Q`, `E`, and the wheel zoom.
-The closest view shows about 10x10 cells, while the maximum zoom-out remains
-the complete world extent.
-
-## Frame pacing
-
-The native shell redraws continuously only while the simulation runs. Paused,
-it switches to winit's reactive mode and idles until input arrives, because a
-paused window otherwise ran the full render loop forever and held a core at
-roughly 90 percent while nothing advanced. The shell opens paused, so it opens
-reactive, and resuming flips it back to continuous frames rather than leaving
-a running simulation waiting on events.
-
-The browser build stays continuous. A DOM click is not a winit event, so a
-sleeping web build ignores the accessible panel until a mouse moves over the
-canvas. See [accessible-play.md](accessible-play.md).
-
-## Projection performance
-
-The 256-cell ground is static. Snapshot revisions rebuild only the compact
-dynamic layer of roads, deposits, factories, routes, labels, and three trucks.
-Truck transforms interpolate between authoritative cells. No presentation
-system writes simulation state directly.
+Full text in the
+[coding-factory-game-v3-reference](../.agents/skills/coding-factory-game-v3-reference/SKILL.md)
+skill:
+[factory-viewer.md](../.agents/skills/coding-factory-game-v3-reference/references/factory-viewer.md)
+and
+[factory-shell.md](../.agents/skills/coding-factory-game-v3-reference/references/factory-shell.md).

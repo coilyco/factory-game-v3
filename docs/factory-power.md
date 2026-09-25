@@ -1,7 +1,7 @@
 # Factory power model
 
 Powered scenarios start with any number of generators and may add remote coal
-plants through [remote-coal-plants.md](remote-coal-plants.md). Fueled generators
+plants through [deployment-radar.md](deployment-radar.md). Fueled generators
 advertise ordinary logistics demand, while fuel-free generators need no
 inventory or dispatch. Every generator charges its own clamped battery before
 connected batteries rebalance by capacity. A full battery consumes no fuel,

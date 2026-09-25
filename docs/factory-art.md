@@ -1,79 +1,33 @@
 # Factory runtime art
 
-The Bevy viewer loads a small accepted sprite set that lives with the crate
-that renders it. The typed `FactoryArt` resource owns every image handle under
-the shell crate's default `assets` root.
-
-## Accepted files
-
-- `factory/terrain/ground.png`
-- `factory/logistics/road-straight-ns.png`
-- `factory/vehicles/truck.png`
-- `factory/resources/iron-ore-deposit.png`
-- `factory/resources/copper-ore-deposit.png`
-- `factory/resources/coal-deposit.png`
-- `factory/resources/stone-deposit.png`
-- `factory/machines/foundry.png`
-- `factory/machines/factory.png`
-- `factory/machines/coal-plant.png`
-- `factory/machines/radar.png`
-- `factory/machines/mining-drill.png`
-- `factory/structures/warehouse.png`
-- `factory/items/iron-ore.png`
-- `factory/items/iron-bars.png`
-
-All fifteen files are 100x100 RGBA images under
-`crates/factory_shell/assets/factory/`. The narrow `.gitattributes` exception
-keeps that subtree in ordinary Git so the viewer builds from a plain clone,
-while larger binary art still goes to LFS. These sprites were selected from the
-Unity library before that tree was removed, and git history retains the
-originals.
+The Bevy viewer loads fifteen accepted 100x100 RGBA sprites from
+`crates/factory_shell/assets/factory/`, held by the typed `FactoryArt`
+resource. They cover ground, the north-south road, the truck, iron, copper,
+coal, and stone deposits, foundry, factory, coal plant, radar, mining drill,
+warehouse, and the iron ore and iron bars items. A narrow `.gitattributes`
+exception keeps that subtree in ordinary Git so a plain clone builds. The
+sprites were selected from the Unity library before it was removed.
 
 ## Projection rules
 
-The ground image stretches across the complete world in one sprite. Iron,
-copper, coal, and stone sources receive matching deposit overlays. A source
-activated by a mining-drill radar receives the drill overlay while deployed.
-Iron-bar factories receive the foundry, while other factories use the general
-factory. Coal-plant generators, radars, and completed storage warehouses use
-their matching sprites. Every hauler receives the truck. Iron ore and iron
-bars in authoritative cargo select the matching item icon.
-The top status bar reuses the four deposit sprites as 18px resource icons next
-to authoritative iron, copper, coal, and stone stockpile counts. The icon
-entities stay fixed while only their adjacent count text updates.
+- Ground stretches across the world in one sprite.
+- Sources get matching deposit overlays, and a drill overlay while deployed.
+- Iron-bar factories use the foundry, and other factories the general sprite.
+- Coal plants, radars, and warehouses use their own sprites, every hauler the
+  truck, and iron cargo the matching item icon.
+- The status bar reuses deposit sprites as 18px resource icons.
+- The road sprite rotates only for pure east-west straights. Corners and
+  junctions keep the colored fallback.
+- Identities without accepted art keep colored fallbacks.
 
-The north-south road sprite is rotated 90 degrees only for a road with east
-and west neighbors and no north or south neighbors. North-south straights use
-the source orientation. Corners, junctions, endpoints, and co-located nodes
-retain the colored road fallback.
+## Packaging
 
-Colored node fallbacks render only for identities without accepted art. Real
-node sprites retain activity pulses without the old rectangular backplates,
-and truck art replaces the colored hauler underlay. Cargo badges, labels,
-gauges, route dashes, detail visibility, and interpolation retain their state
-and animation roles.
+Native builds read the crate asset root. In the browser, Bevy requests
+`/assets/<path>`, and a Trunk `copy-dir` link in `index.html` places the asset
+root at `dist/assets`. `nginx.conf` serves `/assets/` with a one-hour
+revalidated cache and `try_files ... =404`, so a missing sprite is a real 404.
+The shell sets `AssetMetaCheck::Never`, so the console carries no sidecar 404s
+and a real delivery failure stays visible.
 
-## Packaging boundary
-
-Native development reads these files directly from the crate asset root. The
-browser build reaches the same files over HTTP: Bevy's `AssetServer` requests
-`/assets/<path>` in the browser, so `index.html` carries a Trunk `copy-dir`
-link that places the crate asset root at `dist/assets`. The container image
-copies the whole `dist` tree, so no separate Dockerfile step is needed.
-
-Sprite names carry no content hash, because the paths are compiled into the
-binary. `nginx.conf` therefore serves `/assets/` with a one-hour revalidated
-cache instead of the immutable policy the hashed Trunk bundles use, and with
-`try_files ... =404` so a missing sprite fails as a real 404. Without that the
-SPA fallback would answer an image request with `index.html`, masking the miss.
-On a failed request the viewer keeps the same colored fallback it uses
-natively for unsprited identities.
-
-Bevy's default `AssetMetaCheck::Always` asks for a `<path>.png.meta` sidecar
-before each image. The shell ships none, so every browser session logged ten
-404s. The shell sets `AssetMetaCheck::Never` in `AssetPlugin`, which skips the
-request rather than answering it with fifteen empty sidecar files. Loader
-settings stay at their defaults either way, so native and browser behavior
-match. The point is signal: a console that always carries asset 404s cannot
-show the one that means delivery actually broke, which is the failure the
-`/assets/` 404 contract above exists to surface.
+Full text, including the file list:
+[factory-art.md](../.agents/skills/coding-factory-game-v3-reference/references/factory-art.md).

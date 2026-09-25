@@ -54,8 +54,8 @@ See [docs/unity-parity.md](docs/unity-parity.md) for the source-level gameplay
 audit, [docs/v3-worlds.md](docs/v3-worlds.md) for the retained game-scale fixtures, and
 [docs/deployment-radar.md](docs/deployment-radar.md) for autonomous target
 claims. Remote power expansion is covered in
-[docs/remote-coal-plants.md](docs/remote-coal-plants.md), and the post-starter
-power proof is in [docs/v2-liveness.md](docs/v2-liveness.md).
+[docs/deployment-radar.md](docs/deployment-radar.md), and the post-starter
+power proof is in [docs/v3-worlds.md](docs/v3-worlds.md).
 The compact player-loop contract is in
 [docs/compact-first-playable.md](docs/compact-first-playable.md).
 
