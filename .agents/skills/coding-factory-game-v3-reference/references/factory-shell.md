@@ -27,8 +27,8 @@ The repo-root [`Dockerfile`](../../../../Dockerfile) follows the established sta
 deployment pattern. A Rust builder stage runs the trunk build, then an
 unprivileged nginx stage serves `dist/` on 8080 with the wasm MIME, immutable
 caching for trunk's hashed bundles, a revalidated `index.html`, and `/healthz`
-([`nginx.conf`](../../../../nginx.conf)). Forgejo Actions publishes the git-sha image to
-the in-cluster registry. The deploy repo owns rollout and the public
+([`nginx.conf`](../../../../nginx.conf)). Forgejo Actions published the git-sha image to
+the in-cluster registry until it retired on 2026-11-01 (COI-2953). The deploy repo owns rollout and the public
 `factory.coilysiren.me` surface.
 
 Wasm-opt stays off (`data-wasm-opt="0"` in `index.html`) until bundle size
