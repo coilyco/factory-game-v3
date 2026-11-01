@@ -1,5 +1,5 @@
-# Repo gate on a hosted runner (public repo, COI-3096). The LFS checkout fails until the
-# objects reach GitHub (COI-3080), so red before then is expected.
+# Repo gate on a hosted runner (public repo, COI-3096). The setup-ci SHA pin is shared
+# with the rest of the fleet.
 name: ci
 
 on:
@@ -29,6 +29,9 @@ jobs:
       - uses: coilyco/agentic-os/actions/setup-ci@df1aee7cf7fd1c36c1eda3523291a76b0cdbbd35
         with:
           tools: uv pre-commit trufflehog
+
+      - name: Install the Bevy system libraries
+        run: bash scripts/ci-system-deps.sh
 
       - name: Install the pinned Rust toolchain
         run: rustup show active-toolchain || rustup toolchain install
