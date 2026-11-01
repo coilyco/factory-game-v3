@@ -69,12 +69,10 @@ repo keeps its proofs.
 
 ## Release
 
-- Source CI published the private Bevy/Wasm web image to
-  `forgejo.coilysiren.me/coilyco-gaming/factory-game-v3:<full-source-sha>`. That
-  retired with Forgejo on 2026-11-01 (COI-2953), and no GitHub workflow or image
-  replaces it yet.
-- `coilyco/deploy` owns rollout and the public ingress. Its `forgejo-registry`
-  pull secret retired with the registry.
+- Source CI publishes the Bevy/Wasm web image to
+  `ghcr.io/coilyco/factory-game-v3:<full-source-sha>` on every push to `main`. This
+  public repo holds no cluster credentials (COI-3096).
+- `coilyco/deploy` owns rollout and the public ingress, and pulls the image from GHCR.
 - Land image and workflow changes together so the deploy contract stays complete.
 
 ## Agent rules

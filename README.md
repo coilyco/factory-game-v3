@@ -33,10 +33,9 @@ response shapes.
 
 ## Deployment
 
-Source CI built the repo-root Dockerfile and published
-`forgejo.coilysiren.me/coilyco-gaming/factory-game-v3:<full-source-sha>` as a
-private Forgejo package on every push to `main`. That retired with Forgejo on
-2026-11-01 (COI-2953), and no GitHub image replaces it yet.
+Source CI builds the repo-root Dockerfile and publishes
+`ghcr.io/coilyco/factory-game-v3:<full-source-sha>` on every push to `main`
+(`build-publish`, COI-3102). Forgejo published the earlier images until 2026-11-01.
 The image packages the Trunk-built Wasm bundle behind unprivileged nginx.
 `coilyco/deploy` owns the public chart and rollout.
 

@@ -50,7 +50,7 @@ shell-build-web *ARGS:
 image-build *ARGS:
     @docker build -t factory-game-v3:local . "$@"
 
-# Lint the trusted Forgejo OCI publisher shell contract.
+# Lint the trusted GHCR publisher shell contract.
 check-publish *ARGS:
     @pre-commit run shellcheck --files scripts/publish-image.sh "$@"
 
