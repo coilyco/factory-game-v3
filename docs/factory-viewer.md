@@ -25,8 +25,8 @@ build stays continuous so DOM clicks from the panel in
 
 The repo-root [`Dockerfile`](../Dockerfile) builds with trunk and serves
 `dist/` from unprivileged nginx on 8080 ([`nginx.conf`](../nginx.conf)).
-Forgejo Actions published the git-sha image until 2026-11-01 (COI-2953). The
-deploy repo owns rollout and `factory.coilysiren.me`. Wasm-opt stays off until bundle size matters.
+`build-publish` pushes the git-sha image to `ghcr.io/coilyco/factory-game-v3` on every
+main push (COI-3102). The deploy repo owns rollout and `factory.coilysiren.me`. Wasm-opt stays off until bundle size matters.
 
 Full text in the
 [coding-factory-game-v3-reference](../.agents/skills/coding-factory-game-v3-reference/SKILL.md)

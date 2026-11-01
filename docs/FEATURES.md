@@ -29,8 +29,8 @@ skill.
 - **Scenario fixtures and liveness** - see
   [factory-scenarios.md](factory-scenarios.md) and
   [stranded-products.md](stranded-products.md).
-- **Private web image publication** - Forgejo Actions published the git-sha
-  image until 2026-11-01 (COI-2953). See [features-release-tooling.md](features-release-tooling.md).
+- **Web image publication** - `build-publish` pushes the git-sha image to
+  `ghcr.io/coilyco/factory-game-v3` on every main push (COI-3102). See [features-release-tooling.md](features-release-tooling.md).
 - **Validation** - `just test` runs pre-commit and the Rust workspace tests, and CI runs the same check through `scripts/test-gate.sh`.
 
 ## See also
