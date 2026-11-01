@@ -52,7 +52,7 @@ repo keeps its proofs.
 
 - Run `just test` for the repo baseline, including the Rust workspace.
 - Run `just image-build` when changing the web image or publish workflow.
-- Run `just check-publish` when changing the Forgejo OCI publisher.
+- Run `just check-publish` when changing the OCI publisher.
 - Run `pre-commit run --all-files` before committing.
 - Keep [README.md](README.md), this file, and [docs/FEATURES.md](docs/FEATURES.md) in sync when the repo surface changes.
 
@@ -69,12 +69,12 @@ repo keeps its proofs.
 
 ## Release
 
-- Source CI publishes the private Bevy/Wasm web image to
-  `forgejo.coilysiren.me/coilyco-gaming/factory-game-v3:<full-source-sha>`.
-- The trusted deploy runner supplies the package write credential as
-  `REGISTRY_TOKEN`.
-- `coilyco-bridge/deploy` owns rollout, the read-only `forgejo-registry`
-  pull secret, and the public ingress.
+- Source CI published the private Bevy/Wasm web image to
+  `forgejo.coilysiren.me/coilyco-gaming/factory-game-v3:<full-source-sha>`. That
+  retired with Forgejo on 2026-11-01 (COI-2953), and no GitHub workflow or image
+  replaces it yet.
+- `coilyco/deploy` owns rollout and the public ingress. Its `forgejo-registry`
+  pull secret retired with the registry.
 - Land image and workflow changes together so the deploy contract stays complete.
 
 ## Agent rules

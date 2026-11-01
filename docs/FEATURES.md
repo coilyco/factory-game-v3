@@ -29,8 +29,8 @@ skill.
 - **Scenario fixtures and liveness** - see
   [factory-scenarios.md](factory-scenarios.md) and
   [stranded-products.md](stranded-products.md).
-- **Private web image publication** - Forgejo Actions publishes the git-sha
-  image. See [features-release-tooling.md](features-release-tooling.md).
+- **Private web image publication** - Forgejo Actions published the git-sha
+  image until 2026-11-01 (COI-2953). See [features-release-tooling.md](features-release-tooling.md).
 - **Validation** - `just test` runs pre-commit and the Rust workspace tests, and CI runs the same check through `scripts/test-gate.sh`.
 
 ## See also
